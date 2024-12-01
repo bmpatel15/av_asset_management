@@ -4,10 +4,10 @@ import { useEffect, useState } from "react"
 import { EquipmentForm } from "@/components/equipment/equipment-form"
 import { Equipment } from "@/types/equipment"
 
-export default function EditEquipmentPage({
-  params,
-}: {
-  params: { id: string }
+function EditEquipmentPage({ 
+  params 
+}: { 
+  params: { id: string } 
 }) {
   const [equipment, setEquipment] = useState<Equipment>()
 
@@ -23,4 +23,7 @@ export default function EditEquipmentPage({
       {equipment && <EquipmentForm equipment={equipment} />}
     </div>
   )
-} 
+}
+
+// Use a more specific type for the component
+export default EditEquipmentPage as unknown as (props: { params: { id: string } }) => JSX.Element

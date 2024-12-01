@@ -1,11 +1,13 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import type { ApiError } from '@/types/error'
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export const GET = async (
+  request: NextRequest,
+  context: unknown
+) => {
+  const { params } = context as { params: { id: string } }
+  
   try {
     const equipment = await prisma.equipment.findUnique({
       where: { id: params.id },
@@ -24,10 +26,12 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export const PUT = async (
+  request: NextRequest,
+  context: unknown
+) => {
+  const { params } = context as { params: { id: string } }
+  
   try {
     const body = await request.json()
     const equipment = await prisma.equipment.update({
@@ -45,10 +49,12 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export const DELETE = async (
+  request: NextRequest,
+  context: unknown
+) => {
+  const { params } = context as { params: { id: string } }
+  
   try {
     await prisma.equipment.delete({
       where: { id: params.id },
@@ -63,4 +69,3 @@ export async function DELETE(
     )
   }
 }
-

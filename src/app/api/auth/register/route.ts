@@ -5,22 +5,14 @@ import type { ApiError } from '@/types/error'
 
 export async function POST(request: Request) {
   try {
-    const { email, firebaseId, name, phone, dob } = await request.json()
+    const { email, firebaseId, name } = await request.json()
 
     const user = await prisma.user.create({
       data: {
         email,
         firebaseId,
         name,
-        phone,
-        dob: dob ? new Date(dob) : null,
-        role: UserRole.BASIC,
-        permissions: [
-          'VIEW_EQUIPMENT',
-          'CHECKOUT_EQUIPMENT',
-          'CHECKIN_EQUIPMENT'
-        ],
-        password: ''
+        role: UserRole.BASIC
       }
     })
 

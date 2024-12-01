@@ -1,11 +1,13 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import type { ApiError } from '@/types/error'
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export const GET = async (
+  request: NextRequest,
+  context: unknown
+) => {
+  const { params } = context as { params: { id: string } }
+  
   try {
     const user = await prisma.user.findFirst({
       where: { firebaseId: params.id },
@@ -24,4 +26,4 @@ export async function GET(
       { status: 500 }
     )
   }
-} 
+}

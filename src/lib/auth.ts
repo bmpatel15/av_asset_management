@@ -2,7 +2,7 @@ import { type NextAuthOptions } from "next-auth"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { prisma } from "@/lib/prisma"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { compare } from "bcryptjs"
+import { auth } from "@/lib/firebase-admin"
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -24,19 +24,22 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials")
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
-        })
+        try {
+          const firebaseUser = await auth.getUserByEmail(credentials.email)
+          const user = await prisma.user.findUnique({
+            where: { firebaseId: firebaseUser.uid }
+          })
 
-        if (!user || !await compare(credentials.password, user.password)) {
+          if (!user) return null
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name ?? undefined,
+            role: user.role as string
+          }
+        } catch {
           return null
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name || undefined,
-          role: user.role,
         }
       }
     })

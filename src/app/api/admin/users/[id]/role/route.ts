@@ -1,12 +1,14 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { UserRole } from '@prisma/client'
 import type { ApiError } from '@/types/error'
 
-export async function put(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export const PUT = async (
+  request: NextRequest,
+  context: unknown
+) => {
+  const { params } = context as { params: { id: string } }
+  
   try {
     const { role } = await request.json()
 
@@ -38,4 +40,4 @@ export async function put(
       { status: 500 }
     )
   }
-} 
+}

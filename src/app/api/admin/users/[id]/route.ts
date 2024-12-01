@@ -5,8 +5,10 @@ import { ApiError } from "@/types/error"
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: unknown
 ) {
+  const { params } = context as { params: { id: string } }
+  
   try {
     // Get the user to find their firebaseId
     const user = await prisma.user.findUnique({

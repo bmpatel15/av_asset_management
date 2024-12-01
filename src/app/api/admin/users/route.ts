@@ -13,7 +13,6 @@ export async function GET() {
         email: true,
         name: true,
         role: true,
-        permissions: true,
         firebaseId: true,
         createdAt: true,
         updatedAt: true,
