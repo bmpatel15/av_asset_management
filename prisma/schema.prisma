@@ -1,7 +1,7 @@
 datasource db {
   provider = "postgres"
-  url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  url      = "postgresql://postgres.hppzsnmlnygdckcateei:j50Hu9oYXj9a1upm@aws-0-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+  directUrl = "postgresql://postgres.hppzsnmlnygdckcateei:j50Hu9oYXj9a1upm@aws-0-us-east-1.pooler.supabase.com:5432/postgres"
 }
 
 generator client {
